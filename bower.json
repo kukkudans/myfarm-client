@@ -8,10 +8,13 @@
   "dependencies": {
     "angular": "1.5.x",
     "angular-animate": "1.5.x",
+    "angular-spinner": "1.0.x",
+    "restangular": "~1.5.2",
     "angular-mocks": "1.5.x",
+    "angular-ui-router": "~0.2.13",
     "angular-resource": "1.5.x",
     "angular-route": "1.5.x",
-    "bootstrap": "3.3.x",
-    "jquery": "2.2.x"
+    "bootstrap": "~3.3.6",
+    "jquery": "3.2.1"
   }
 }

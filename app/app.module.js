@@ -1,10 +1,14 @@
 'use strict';
 
-// Define the `phonecatApp` module
-angular.module('phonecatApp', [
+// Define the `farmApp` module
+angular.module('farmApp', [
   'ngAnimate',
   'ngRoute',
+  'ui.router',
+  'angularSpinner',
+  'ngResource',
+  'restangular',
   'core',
   'phoneDetail',
   'phoneList'
-]);
+  ]);

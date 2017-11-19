@@ -1,0 +1,142 @@
+
+ 
+<div class="container">
+  <span us-spinner="{radius:20, width:8, length: 16}" spinner-key="spinner-userprofile"></span>
+  <div class="alert alert-success  alert-dismissable fade in" ng-show="vm.successMessage">
+   <a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Success!</strong> {{vm.successMessage}}
+  </div>
+  <div class="alert alert-danger alert-dismissable fade in" ng-show="vm.errorMessage">
+    <a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Error!</strong> {{vm.errorMessage}}
+  </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+        User Profile : <b>{{vm.profile.user.firstName}} {{vm.profile.user.lastName}}</b> <span class="pull-right" ng-click="vm.editProfile()" style="cursor: pointer;"><i class="glyphicon glyphicon-pencil"></i></span></div>
+        <div class="panel-body">
+          
+            <form class="form-horizontal">
+
+              <div style="margin-bottom: 25px" class="input-group">
+                  <span class="input-group-addon"><b>First Name</b></span>
+                  <input id="firstName" type="text" class="form-control" ng-model="vm.userProfile.firstName" ng-disabled="vm.basicInfoEditable" placeholder="firstName">                                 
+              
+                  <span class="input-group-addon"><b>Last Name</b></span>
+                  <input id="firstName" type="text" class="form-control" ng-model="vm.userProfile.lastName" ng-disabled="vm.basicInfoEditable" placeholder="lastName">                                 
+              </div>
+               <div style="margin-bottom: 25px" class="input-group">
+                  <span class="input-group-addon"><b>User ID</b></span>
+                  <input id="firstName" type="text" class="form-control" ng-model="vm.userProfile.userId" ng-disabled="true" placeholder="userId">                                 
+              </div>
+
+              <div class="panel panel-info">
+                  <div class="panel-heading">Contact Info</div>
+                  <div class="panel-body">
+                       <span class="btn btn-default" ng-disabled="vm.basicInfoEditable" ng-show="vm.userProfile.mobiles.length==0" ng-click="vm.addPhoneNo()"><i class="glyphicon glyphicon-phone "></i> <i class="glyphicon glyphicon-plus "></i></span>
+                      <div style="margin-bottom: 25px" class="input-group"   ng-repeat="mobile in vm.userProfile.mobiles track by $index">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+
+                            <input type="text" class="form-control" ng-model="vm.userProfile.mobiles[$index]" ng-disabled="vm.basicInfoEditable"  placeholder="mobile"> 
+
+                            <span class="input-group-addon" ng-hide="vm.basicInfoEditable" ><i class="glyphicon glyphicon-minus" ng-click="vm.removePhoneNo(mobile)" ></i></span>
+                            <span  class="input-group-addon" ng-show="$last && !vm.basicInfoEditable"><i class="glyphicon glyphicon-plus" ng-click="vm.addPhoneNo()" ng-disabled="vm.basicInfoEditable"></i></span>                                
+                        </div>
+                       
+                         <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><b>Email</b></span>
+                            <input id="firstName" type="email" class="form-control" ng-model="vm.userProfile.email" ng-disabled="vm.basicInfoEditable" placeholder="email">                                 
+                        </div>
+                  </div>
+                
+              </div>
+
+              <div class="form-group" ng-hide="vm.basicInfoEditable">        
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-default" ng-click="vm.updateBasicProfile()">Submit</button>
+                  <button  class="btn btn-danger" ng-click="vm.reset()">Reset</button>
+                  <button  class="btn btn-info" ng-click="vm.cancel()">Cancel</button>
+                </div>
+              </div>
+            </form>
+          
+        </div>
+      
+    </div>
+
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+       Address <span class="pull-right" ng-click="vm.editAddress()" style="cursor: pointer;"><i class="glyphicon glyphicon-pencil"></i></span></div>
+        <div class="panel-body">
+            <form class="form-horizontal">
+
+              <div style="margin-bottom: 25px" class="input-group">
+                  <span class="input-group-addon"><b># Floor</b></span>
+                  <input id="floorNO" type="text" class="form-control" ng-model="vm.userAddress.floorNO" ng-disabled="vm.addressEditable" placeholder="Floor #">                                 
+              
+                  <span class="input-group-addon"><b># House</b></span>
+                  <input id="houseNo" type="text" class="form-control" ng-model="vm.userAddress.houseNo" ng-disabled="vm.addressEditable" placeholder="House #">                                 
+             
+                  <span class="input-group-addon"><b># Building</b></span>
+                  <input id="buildingNo" type="text" class="form-control" ng-model="vm.userAddress.buildingNo" ng-disabled="vm.addressEditable" placeholder="Building #">                                 
+              </div>
+              <div style="margin-bottom: 25px" class="input-group">
+                  <span class="input-group-addon"><b>address Line</b></span>
+                  <input id="address" type="textarea" class="form-control" ng-model="vm.userAddress.addressLine" ng-disabled="vm.addressEditable" placeholder="address">
+              </div>
+              <div style="margin-bottom: 25px" class="input-group">
+                  <span class="input-group-addon"><b>Landmark</b></span>
+                  <input id="landmark" type="textarea" class="form-control" ng-model="vm.userAddress.landmark" ng-disabled="vm.addressEditable" placeholder="landmark">
+              </div>
+              <div style="margin-bottom: 25px" class="input-group">
+                  <span class="input-group-addon"><b>Post Office</b></span>
+                  <input id="post_office" type="text" class="form-control" ng-model="vm.userAddress.post_office" ng-disabled="vm.addressEditable" placeholder="P.O.">
+              
+                  <span class="input-group-addon"><b>Pin</b></span>
+                  <input id="pin" type="number" class="form-control" ng-model="vm.userAddress.pin" ng-disabled="vm.addressEditable" placeholder="PIN">
+              
+                  <span class="input-group-addon"><b>District</b></span>
+                  <input id="pin" type="text" class="form-control" ng-model="vm.userAddress.district" ng-disabled="vm.addressEditable" >
+              </div>
+              <div style="margin-bottom: 25px" class="input-group">
+                  <span class="input-group-addon"><b>Country</b></span>
+                   <select id="country"
+                        class="form-control" 
+                        ng-model="vm.userAddress.country" 
+                        
+                        ng-disabled="vm.addressEditable"
+                        ng-options=" value for (key, value) in vm.appConf.countries"
+                        ng-change="vm.countryChanged()"
+                        >
+                </select>
+
+             
+                  <span class="input-group-addon"><b>State</b></span>
+                  <select id="state"
+                        class="form-control" 
+                        ng-model="vm.userAddress.sate" 
+                        
+                        ng-disabled="vm.addressEditable"
+                        ng-options=" value for (key, value) in  vm.states"
+                        >
+                </select>
+              </div>
+              <div class="form-group" ng-hide="vm.addressEditable">        
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-default" ng-click="vm.updateAddress()">Submit</button>
+                  <button  class="btn btn-danger" ng-click="vm.resetAddressForm()">Reset</button>
+                  <button  class="btn btn-info" ng-click="vm.cancelAddressEdit()">Cancel</button>
+                </div>
+              </div>
+
+            </form>
+          
+        </div>
+      
+    </div>
+
+
+
+</div>
+
+
