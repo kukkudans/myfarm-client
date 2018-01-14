@@ -39,8 +39,15 @@ var app=angular.module('farmApp');
           templateUrl: '/user/userProfile.html',
           controller : "UserProfileController",
           controllerAs: 'vm'
-        }).
-        when('/phones', {
+        }).when('/users', {
+          templateUrl: '/user/listUsers.html',
+          controller : "ListUsersController",
+          controllerAs: 'vm'
+        }).when('/leave/:userid/:fname/:lname', {
+          templateUrl: '/leave/LeaveForm.html',
+          controller : "LeaveController",
+          controllerAs: 'vm'
+        }).when('/phones', {
           template: '<phone-list></phone-list>'
         }).
         when('/phones/:phoneId', {

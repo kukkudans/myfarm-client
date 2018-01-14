@@ -6,9 +6,9 @@
         .module('farmApp')
         .controller('UserProfileController', UserProfileController);
     
-    UserProfileController.$inject = ['LoginResource', '$window', 'FarmConfManager', 'UserResource', '$route', 'usSpinnerService'];
+    UserProfileController.$inject = ['LoginResource', '$window', 'FarmConfManager', 'UserResource', '$route', 'usSpinnerService', '$filter'];
      
-    function UserProfileController(LoginResource, $window, FarmConfManager, UserResource, $route, usSpinnerService) {
+    function UserProfileController(LoginResource, $window, FarmConfManager, UserResource, $route, usSpinnerService, $filter) {
        
         var vm = this;
         vm.userId = null;
@@ -22,12 +22,24 @@
         vm.userAddressMaster =null;
         vm.userAddress =null;
         vm.states=null;
+        vm.formats = ['yyyy-MM-dd', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+        vm.format = vm.formats[0];
+        vm.opened = false;
+        vm.maxDate = new Date();
+        vm.selectedDate =vm.maxDate ;
+
+        vm.datepickerOptions =  {
+           
+           initDate: vm.maxDate,
+           maxDate: vm.maxDate,
+           showWeeks:"false"
+        };
 
 
         vm.editProfile = editProfile;
         vm.editAddress = editAddress;
         vm.reset = reset;
-        vm.cancel = cancel;
+        vm.cancelBasicEdit = cancelBasicEdit;
         vm.updateBasicProfile = updateBasicProfile;
         vm.addPhoneNo = addPhoneNo;
         vm.removePhoneNo = removePhoneNo;
@@ -36,7 +48,22 @@
         vm.resetAddressForm = resetAddressForm;
         vm.updateAddress = updateAddress;
 
+        vm.cancel = cancel;
+        vm.disabled=disabled;
+        vm.open =open;
+        vm.getDayClass = getDayClass;
+        vm.setDOB = setDOB;
+
         activate();
+
+
+        function setDOB() {
+           
+           if(angular.isDate(vm.selectedDate)){
+               vm.userProfile.dob = $filter('date')(vm.selectedDate, 'yyyy-MM-dd');
+              
+           } 
+        }
 
         function activate() {
           startSpin();
@@ -47,16 +74,18 @@
               UserResource.getUserProfiles(vm.userId).then(function(response) {
                 vm.profile.user =response.data;
                 vm.userProfile =angular.copy(response.data);
-                
+                vm.selectedDate = new Date(vm.userProfile.dob);
               }, function (response) {
                   vm.errorMessage=JSON.stringify(response);
                }).finally(function() {
                    countryChanged();
+                   
               });
           } else {
             vm.profile = FarmConfManager.getProfile();
             vm.userProfile =angular.copy(vm.profile.user);
             vm.userId =vm.profile.user.userId;
+            vm.selectedDate = new Date(vm.userProfile.dob);
           }
 
           UserResource.getAddress(vm.userId).then(function(response) {
@@ -71,6 +100,8 @@
          
          stopSpin();
         }
+
+        
 
         function countryChanged(){
           var statesMapList=vm.appConf.states;
@@ -105,7 +136,7 @@
           angular.copy(vm.userAddressMaster,vm.userAddress);
         }
 
-        function cancel() {
+        function cancelBasicEdit() {
           reset();
           vm.basicInfoEditable = true;
         }
@@ -157,6 +188,39 @@
 
            
         };
+
+         // date picker methods
+        function cancel() {
+          $state.go('app');
+        }
+
+        function disabled(date, mode) {
+           return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+        };
+
+        function getDayClass(data) {
+          var date = data.date,
+          mode = data.mode;
+          if (mode === 'day') {
+            var dayToCheck = new Date(date).setHours(0,0,0,0);
+            for (var i = 0; i < $scope.events.length; i++) {
+              var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
+              if (dayToCheck === currentDay) {
+                return $scope.events[i].status;
+              }
+            }
+          }
+          return '';
+        }
+        
+
+         function open($event) {
+           $event.preventDefault();
+           $event.stopPropagation();
+
+            vm.opened = !vm.opened;
+         };
+         // date picker methods
    }
 })();
 

@@ -15,6 +15,7 @@
             updateAddress : updateAddress, 
             addUser : addUser,
             getUserProfiles : getUserProfiles,
+            getUsers : getUsers,
             deleteUser : deleteUser,
             isValidUserId : isValidUserId
         };
@@ -52,6 +53,10 @@
 
         function isValidUserId(userId) {
             return Restangular.all('user',userId).get();
+        }
+
+        function getUsers() {
+            return Restangular.all('users').getList();
         }
 
     }

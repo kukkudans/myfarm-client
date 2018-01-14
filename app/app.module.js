@@ -9,6 +9,8 @@ angular.module('farmApp', [
   'ngResource',
   'restangular',
   'core',
+  'ui.bootstrap',
   'phoneDetail',
-  'phoneList'
+  'phoneList',
+  'ngTable'
   ]);

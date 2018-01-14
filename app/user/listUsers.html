@@ -1,0 +1,31 @@
+	<div class="container">
+	  
+	  <div class="alert alert-success  alert-dismissable fade in" ng-show="vm.successMessage">
+	   <a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	    <strong>Success!</strong> {{vm.successMessage}}
+	  </div>
+	  <div class="alert alert-danger alert-dismissable fade in" ng-show="vm.errorMessage">
+	    <a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	    <strong>Error!</strong> {{vm.errorMessage}}
+	  </div>
+	    <div class="panel panel-info">
+	        <div class="panel-heading">List User</div>
+	        <div class="panel-body">
+	          <span us-spinner="{radius:20, width:8, length: 16}" spinner-key="spinner-listuser"></span>
+
+				<table ng-table="vm.tableParams" class="table" show-filter="true">
+				    <tr ng-repeat="user in $data">
+				        <td title="'Name'" filter="{ firstName: 'text'}" sortable="'firstName'">
+				            {{user.firstName}}</td>
+				        <td title="'email'" filter="{ email: 'text'}" sortable="'email'">
+				            {{user.email}}</td>
+				        <td title="'dob'" filter="{ dob: 'text'}" sortable="'dob'">
+				            {{user.dob}}</td>
+				         <td >
+				            <a class="btn btn-default"  href="#!/userProfile/{{user.userId}}" ><i class="glyphicon glyphicon-pencil"></i></a> 
+				            <a class="btn btn-default"  href="#!/leave/{{user.userId}}/{{user.firstName}}/{{user.lastName}}" ><i class="glyphicon glyphicon-calendar"></i>LEAVE</a></td>
+				    </tr>
+				</table>
+			</div>
+		</div>
+	</div>

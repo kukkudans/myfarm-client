@@ -34,7 +34,26 @@
 
                <div style="margin-bottom: 25px" class="input-group">
                   <span class="input-group-addon"><b>User ID</b></span>
-                  <input id="userId" type="text" class="form-control" ng-model="vm.addUserForm.userId"  placeholder="userId" required>                                 
+                  <input id="userId" type="text" class="form-control" ng-model="vm.addUserForm.userId"  placeholder="userId" required>
+
+                  <span class="input-group-addon"><b>Date Of Birth</b></span>
+                   
+                  <input
+                        type="text"
+                        class="form-control"
+                        uib-datepicker-popup="{{vm.format}}"
+                        ng-model="vm.selectedDate"
+                        is-open="vm.opened"
+                        datepicker-options="vm.datepickerOptions"
+                        date-disabled="vm.disabled(date, mode)"
+                        ng-click="vm.open($event)"
+                        ng-change="vm.setDOB()"
+                        show-button-bar="false"
+                        required
+                        />
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="vm.open($event)" ><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>                               
               </div>
 
               <div class="panel panel-info">

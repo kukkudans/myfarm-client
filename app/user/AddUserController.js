@@ -6,9 +6,9 @@
         .module('farmApp')
         .controller('AddUserController', AddUserController);
     
-    AddUserController.$inject = ['LoginResource', '$window', 'FarmConfManager', 'UserResource', 'usSpinnerService'];
+    AddUserController.$inject = ['LoginResource', '$window', 'FarmConfManager', 'UserResource', 'usSpinnerService', '$filter'];
      
-    function AddUserController(LoginResource, $window, FarmConfManager, UserResource, usSpinnerService) {
+    function AddUserController(LoginResource, $window, FarmConfManager, UserResource, usSpinnerService, $filter) {
        
         var vm = this;
 
@@ -22,12 +22,23 @@
         vm.userAddress =null;
         vm.states=null;
         vm.addUserForm = null;
+        vm.formats = ['yyyy-MM-dd', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+        vm.format = vm.formats[0];
+        vm.opened = false;
+        vm.maxDate = new Date();
+        vm.selectedDate =vm.maxDate;
 
         vm.addPhoneNo = addPhoneNo;
         vm.removePhoneNo = removePhoneNo;
         vm.resetForm =resetForm;
         vm.addAddress =addAddress;
         vm.addUser = addUser;
+        vm.cancel = cancel;
+        vm.disabled=disabled;
+        vm.open =open;
+        vm.getDayClass = getDayClass;
+        vm.setDOB = setDOB;
+
         activate();
 
         function activate() {
@@ -52,6 +63,7 @@
                 "lastName": "",
                 "userId": "",
                 "email": "",
+                "dob":vm.maxDate,
                 "mobiles": [
                     ""
                 ]
@@ -83,9 +95,17 @@
           }
         } 
 
+        function setDOB() {
+           
+           if(angular.isDate(vm.selectedDate)){
+               vm.addUserForm.dob = $filter('date')(vm.selectedDate, 'yyyy-MM-dd');
+              
+           } 
+        }
+
         function addUser(){
           clearMessages();
-          startSpin();  
+          startSpin();      
 
            UserResource.addUser(vm.addUserForm).then(function(response) {
             addAddress();
@@ -127,6 +147,39 @@
          function stopSpin() {
             usSpinnerService.stop('spinner-adduser');
         };
+
+        // date picker methods
+        function cancel() {
+          $state.go('app');
+        }
+
+        function disabled(date, mode) {
+           return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+        };
+
+        function getDayClass(data) {
+          var date = data.date,
+          mode = data.mode;
+          if (mode === 'day') {
+            var dayToCheck = new Date(date).setHours(0,0,0,0);
+            for (var i = 0; i < $scope.events.length; i++) {
+              var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
+              if (dayToCheck === currentDay) {
+                return $scope.events[i].status;
+              }
+            }
+          }
+          return '';
+        }
+        
+
+         function open($event) {
+           $event.preventDefault();
+           $event.stopPropagation();
+
+            vm.opened = !vm.opened;
+         };
+         // date picker methods
    }
 })();
 
